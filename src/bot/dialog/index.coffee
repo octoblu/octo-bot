@@ -1,23 +1,51 @@
 builder = require 'botbuilder'
 prompts = require '../prompts'
-modelConfig = require '../../../config/model-config'
+modelConfig = require '../../config/model-config'
+MeshbluHttp = require 'meshblu-http'
 
 
-modelUrl = "https://api.projectoxford.ai/luis/v1/application?id=#{@modelAppId}&subscription-key=#{@modelSubscriptionKey}&q="
+modelUrl = "https://api.projectoxford.ai/luis/v1/application?id=#{modelConfig.modelAppId}&subscription-key=#{modelConfig.subscriptionKey}&q="
+
 dialog = new builder.LuisDialog(modelUrl)
-module.exports = dialog
-getOctobluUUID = (session, args, next) =>
-  #prompt the user for their octoblu UUID
-getOctobluToken = (session, args, next) =>
-  #prompts the user for their Octoblu Token
-authenticateWithMeshblu = (session, args, next) =>
-  #Takes their Meshblu UUID and Token and logs in to octoblu, otherwise tell them to try again
+
+getOctobluUUID = (session) =>
+  builder.Prompts.text session, prompts.getMeshbluUUID
+
+setOctobluUUID = (session, results, next) =>
+  console.log "setOctobluUUID to #{results.response}"
+  session.userData.uuid = results.response
+  console.log "userData", session.userData
+  next()
+
+getOctobluToken = (session) =>
+  builder.Prompts.text session, prompts.getMeshbluToken
+
+setOctobluToken = (session, results, next) =>
+  session.userData.token = results.response
+  next()
+
+authenticateWithMeshblu = (session, results, next) =>
+  { uuid, token } = session.userData
+  meshbluHttp = new MeshbluHttp({uuid, token})
+  meshbluHttp.whoami (error, deviceData) =>
+    if (error)
+      session.endDialog "Authorization failed with your uuid and token combination"
+    else
+      session.send "Successfully logged in"
+  # session.send "Then credentials are uuid:#{uuid} token:#{token}"
+
+
+
+
+
 
 dialog.on 'Help', builder.DialogAction.send(prompts.helpMessage)
-dialog.on 'SetCredentials', [getOctobluUUID, getOctobluToken, authenticateWithMeshblu]
-dialog.on 'MyDevices', [(session, args, next) =>]
+dialog.on 'SetCredentials', [getOctobluUUID, setOctobluUUID, getOctobluToken, setOctobluToken, authenticateWithMeshblu]
+dialog.onDefault(builder.DialogAction.send("I'm sorry. I didn't understand."))
+# dialog.on 'SetCredentials', [getOctobluUUID, getOctobluToken, authenticateWithMeshblu]
+# dialog.on 'MyDevices', [(session, args, next) =>]
 
-dialog.on 'None', (session) =>
+# dialog.on 'None', (session) =>
 
 
 
@@ -117,3 +145,4 @@ dialog.on 'None', (session) =>
 #         session.send(prompts.listNoTasks);
 #     }
 # });
+module.exports = dialog
