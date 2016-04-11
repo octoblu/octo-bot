@@ -1,5 +1,4 @@
 _             = require 'lodash'
-MeshbluConfig = require 'meshblu-config'
 Server        = require './src/server'
 
 class Command
@@ -16,7 +15,7 @@ class Command
     # Use this to require env
     # @panic new Error('Missing required environment variable: ENV_NAME') if _.isEmpty @serverOptions.envName
 
-    server = new Server @serverOptions, {meshbluConfig:  new MeshbluConfig().toJSON()}
+    server = new Server @serverOptions
     server.run (error, result) =>
       console.log "Result", result
       return @panic error if error?
