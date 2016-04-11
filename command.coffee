@@ -5,7 +5,7 @@ Server        = require './src/server'
 class Command
   constructor: ->
     @serverOptions =
-      port:           process.env.PORT || 80
+      port:           process.env.PORT
       disableLogging: process.env.DISABLE_LOGGING == "true"
 
   panic: (error) =>

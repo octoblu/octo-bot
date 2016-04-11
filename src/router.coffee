@@ -1,13 +1,16 @@
 msRest            = require 'ms-rest'
 connector         = require 'botconnector'
-OctoBotController = require './controllers/octo-bot-controller'
+builder           = require 'builder'
+dialog            = './bot/dialog/index'
 verifyCredentials = require './middleware/verify-credentials'
 
 class Router
-  constructor: ({@octoBotService, @botConfig}) ->
+  constructor: ({@botConfig}) ->
+    {appId, appSecret} = @botConfig
+    @bot = new builder.BotConnectorBot {appId, appSecret}
+    @bot.add '/', dialog
 
   route: (app) =>
-    octoBotController = new OctoBotController {@octoBotService, @botConfig}
-    app.post '/api/messages', verifyCredentials, octoBotController.receiveMessages
+    app.post '/api/messages', verifyCredentials, bot.listen()
 
 module.exports = Router

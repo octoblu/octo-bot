@@ -4,13 +4,11 @@ express            = require 'express'
 bodyParser         = require 'body-parser'
 errorHandler       = require 'errorhandler'
 meshbluHealthcheck = require 'express-meshblu-healthcheck'
-meshbluAuth        = require 'express-meshblu-auth'
 MeshbluConfig      = require 'meshblu-config'
 debug              = require('debug')('octo-bot:server')
 
 Router             = require './router'
 botConfig          = require './config/bot-credentials'
-OctoBotService     = require './services/octo-bot-service'
 
 class Server
   constructor: ({@disableLogging, @port}, {@meshbluConfig})->
@@ -30,12 +28,12 @@ class Server
 
     app.options '*', cors()
 
-    octoBotService = new OctoBotService
-    router = new Router {@meshbluConfig, octoBotService, botConfig}
+    router = new Router({@botConfig: botConfig})
 
     router.route app
 
-    @server = app.listen(callback)
+    return @server = app.listen(callback) unless @port
+    return @server = app.listen(@port, callback)
 
   stop: (callback) =>
     @server.close callback

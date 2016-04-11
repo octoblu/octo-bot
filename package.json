@@ -15,7 +15,7 @@
     "url": "https://github.com/octoblu/octo-bot.git"
   },
   "scripts": {
-    "start": "node command.js",
+    "start": "PORT=3297 node command.js",
     "test": "mocha"
   },
   "devDependencies": {
@@ -31,17 +31,15 @@
   "dependencies": {
     "basic-auth": "^1.0.3",
     "body-parser": "^1.14.1",
-    "botbuilder": "^0.7.1",
+    "botbuilder": "^0.7.2",
     "botconnector": "^0.9.6",
     "coffee-script": "^1.10.0",
     "cors": "^2.5.3",
     "debug": "^2.2.0",
     "errorhandler": "^1.4.2",
     "express": "^4.13.3",
-    "express-meshblu-auth": "^2.0.0",
     "express-meshblu-healthcheck": "^1.0.1",
     "lodash": "^3.10.1",
-    "meshblu-config": "^3.1.1",
     "morgan": "^1.6.1",
     "ms-rest": "^1.12.0"
   },
