@@ -4,15 +4,13 @@ express            = require 'express'
 bodyParser         = require 'body-parser'
 errorHandler       = require 'errorhandler'
 meshbluHealthcheck = require 'express-meshblu-healthcheck'
-MeshbluConfig      = require 'meshblu-config'
 debug              = require('debug')('octo-bot:server')
 
 Router             = require './router'
 botConfig          = require './config/bot-credentials'
 
 class Server
-  constructor: ({@disableLogging, @port}, {@meshbluConfig})->
-    @meshbluConfig ?= new MeshbluConfig().toJSON()
+  constructor: ({@disableLogging, @port})->
 
   address: =>
     @server.address()
@@ -28,7 +26,7 @@ class Server
 
     app.options '*', cors()
 
-    router = new Router({@botConfig: botConfig})
+    router = new Router({botConfig})
 
     router.route app
 
