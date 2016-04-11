@@ -8,7 +8,6 @@ class Router
 
   route: (app) =>
     octoBotController = new OctoBotController {@octoBotService, @botConfig}
-    app.get '/hello', octoBotController.hello
-    app.post '/v1/api/messages', verifyCredentials, octoBotController.receiveMessages
+    app.post '/api/messages', verifyCredentials, octoBotController.receiveMessages
 
 module.exports = Router

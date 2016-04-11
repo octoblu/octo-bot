@@ -1,10 +1,12 @@
 connector = require 'botconnector'
-msRest = require 'ms-rest'
+MSRest = require 'ms-rest'
+request = require 'request'
 
 class OctoBotController
   constructor: ({@octoBotService, @botConfig}) ->
+    @triggerUrl = "https://triggers.octoblu.com/flows/8638d8ea-5fd0-4073-be96-ce37977d8372/triggers/4a6d8ac0-ff8e-11e5-bd3d-6fccd197489c"
     {appId, appSecret} = @botConfig
-    @credentials = new msRest.BasicAuthenticationCredentials appId, appSecret
+    @credentials = new MSRest.BasicAuthenticationCredentials appId, appSecret
 
   sendMessage: (msg, cb) =>
     client = new connector @credentials
@@ -12,22 +14,26 @@ class OctoBotController
       customHeaders:
         'Ocp-Apim-Subscription-Key': @botConfig.appSecret
 
-    console.log 'Send MEssage', msg
+    console.log 'Send Message', msg
     client.messages.sendMessage msg, options, (err, result, request, response) =>
       err = new Error "Message rejected with #{response.statusMessage}" if (!err &&response?.statusCode >= 400)
       cb err if (cb)
 
   receiveMessages: (req, res) =>
     console.log 'req.body', req.body
-    {id, from, to, text} = req.body
+    msg = req.body
 
+    request.post @triggerUrl,
+      json: true
+      body: msg
+      
     reply =
-      replyToMessageId: id
-      to: from
-      from: to
-      text: "I heard #{text}"
+      replyToMessageId: msg.id
+      to: msg.from
+      from: msg.to
+      text: "I heard #{msg.text}"
     #
-    @sendMessage reply, () => res.st
+    @sendMessage reply, () => res.status(200).send('OK')
     # res.status(200).send('got it!')
 
   hello: (request, response) =>
