@@ -69,9 +69,20 @@ listDevices = (session, results, next) =>
     next()
 
 
-pickDevice = (session, results, next) =>
+promptDeviceSelection = (session, results, next) =>
   devices = _.map session.userData.filteredDevices, (device) => device.name
   builder.Prompts.choice session, "Which device would you like to message?", devices
+
+selectDevice = (session, results, next) =>
+  deviceName = results.response
+  device = _.find session.userData.filteredDevices, (device) =>
+    device.name == deviceName
+  session.userData.selectDevice = device
+  session.send """
+    Selected Device Schema
+    #{JSON.stringify device.messageSchema}
+  """
+  next()
 
 getName = (session, results, next) =>
   builder.Prompts.text session, prompts.getName
@@ -88,7 +99,7 @@ dialog.onBegin (session, results, next) =>
 dialog.on 'Help', showHelp
 dialog.on 'SetCredentials', [getOctobluUUID, setOctobluUUID, getOctobluToken, setOctobluToken, authenticateWithMeshblu]
 dialog.on 'MyDevices', [getMyDevices, excludeFlowDevices, listDevices]
-dialog.on 'MessageDevice', [getMyDevices, excludeFlowDevices, pickDevice]
+dialog.on 'MessageDevice', [getMyDevices, excludeFlowDevices, promptDeviceSelection, selectDevice]
 dialog.on 'None', builder.DialogAction.send prompts.intentNotFound
 dialog.onDefault builder.DialogAction.send(prompts.intentNotFound)
 
