@@ -16,9 +16,7 @@ getOctobluUUID = (session) =>
   builder.Prompts.text session, prompts.getMeshbluUUID
 
 setOctobluUUID = (session, results, next) =>
-  console.log "setOctobluUUID to #{results.response}"
   session.userData.uuid = results.response
-  console.log "userData", session.userData
   next()
 
 getOctobluToken = (session) =>
@@ -36,7 +34,6 @@ authenticateWithMeshblu = (session, results, next) =>
       session.endDialog "Authorization failed with your uuid and token combination"
     else
       session.send "Successfully logged in"
-  # session.send "Then credentials are uuid:#{uuid} token:#{token}"
 
 getMyDevices = (session, results, next) =>
   { uuid, token } = session.userData
@@ -68,7 +65,7 @@ dialog.onBegin (session, results, next) =>
 dialog.on 'Help', showHelp
 dialog.on 'SetCredentials', [getOctobluUUID, setOctobluUUID, getOctobluToken, setOctobluToken, authenticateWithMeshblu]
 dialog.on 'MyDevices', [authenticateWithMeshblu, getMyDevices]
-
-dialog.onDefault(builder.DialogAction.send("I'm sorry. I didn't understand."))
+dialog.on 'None', builder.DialogAction.send prompts.intentNotFound
+dialog.onDefault builder.DialogAction.send(prompts.intentNotFound)
 
 module.exports = dialog

@@ -17,6 +17,6 @@ setName = (session, results, next) =>
 
 showHelp = (session, results, next) =>
   session.send prompts.helpMessage
-  next()
+  session.replaceDialog '/'
 
 module.exports = [getName, setName, showHelp]

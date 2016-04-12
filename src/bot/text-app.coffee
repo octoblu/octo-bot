@@ -1,7 +1,6 @@
-builder = require 'botbuilder'
-index   = require './dialog/index'
+builder     = require 'botbuilder'
+index       = require './dialog/index'
 beginDialog = require './dialog/begin.dialog'
-
 
 textBot = new builder.TextBot()
 
