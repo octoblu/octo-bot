@@ -2,7 +2,7 @@ builder = require 'botbuilder'
 prompts = require '../prompts'
 modelConfig = require '../../config/model-config'
 MeshbluHttp = require 'meshblu-http'
-
+_ = require 'lodash'
 
 modelUrl = "https://api.projectoxford.ai/luis/v1/application?id=#{modelConfig.modelAppId}&subscription-key=#{modelConfig.subscriptionKey}&q="
 
@@ -34,6 +34,21 @@ authenticateWithMeshblu = (session, results, next) =>
       session.send "Successfully logged in"
   # session.send "Then credentials are uuid:#{uuid} token:#{token}"
 
+getMyDevices = (session, results, next) =>
+  { uuid, token } = session.userData
+  meshbluHttp = new MeshbluHttp {uuid, token}
+  meshbluHttp.myDevices {}, (error, deviceResults) =>
+    session.endDialog "Sorry could not find your devices" if error
+    {devices} = deviceResults
+    _.each devices, (device) ->
+      session.send "Device:\n
+      Name:#{device.name?}\n
+      Type:#{device.type?}\n
+      UUID:#{device.uuid}\n"
+    session.userData.devices = devices
+    next()
+
+
 
 
 
@@ -41,6 +56,7 @@ authenticateWithMeshblu = (session, results, next) =>
 
 dialog.on 'Help', builder.DialogAction.send(prompts.helpMessage)
 dialog.on 'SetCredentials', [getOctobluUUID, setOctobluUUID, getOctobluToken, setOctobluToken, authenticateWithMeshblu]
+dialog.on 'MyDevices', [authenticateWithMeshblu, getMyDevices]
 dialog.onDefault(builder.DialogAction.send("I'm sorry. I didn't understand."))
 # dialog.on 'SetCredentials', [getOctobluUUID, getOctobluToken, authenticateWithMeshblu]
 # dialog.on 'MyDevices', [(session, args, next) =>]
