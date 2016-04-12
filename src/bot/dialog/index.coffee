@@ -33,7 +33,8 @@ authenticateWithMeshblu = (session, results, next) =>
     if (error)
       session.endDialog "Authorization failed with your uuid and token combination"
     else
-      session.send "Successfully logged in"
+      # session.send "Successfully logged in"
+      session.replaceDialog "/"
 
 getMyDevices = (session, results, next) =>
   { uuid, token } = session.userData
