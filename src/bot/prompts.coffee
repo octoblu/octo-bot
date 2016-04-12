@@ -8,5 +8,6 @@ prompts =
   getMeshbluUUID: "What is your Octoblu UUID?"
   getMeshbluToken: "What is your Octoblu Token?"
   getDeviceName: "Enter the name of the device you want to message"
+  intentNotFound: "Sorry I did not understand you"
 
 module.exports = prompts

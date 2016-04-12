@@ -57,7 +57,8 @@ getMyDevices = (session, results, next) =>
 dialog.on 'Help', builder.DialogAction.send(prompts.helpMessage)
 dialog.on 'SetCredentials', [getOctobluUUID, setOctobluUUID, getOctobluToken, setOctobluToken, authenticateWithMeshblu]
 dialog.on 'MyDevices', [authenticateWithMeshblu, getMyDevices]
-dialog.onDefault(builder.DialogAction.send("I'm sorry. I didn't understand."))
+dialog.on 'None', builder.DialogAction.send prompts.intentNotFound
+dialog.onDefault builder.DialogAction.send(prompts.intentNotFound)
 # dialog.on 'SetCredentials', [getOctobluUUID, getOctobluToken, authenticateWithMeshblu]
 # dialog.on 'MyDevices', [(session, args, next) =>]
 
