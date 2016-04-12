@@ -1,0 +1,405 @@
+{
+  "luis_schema_version": "1.2.0",
+  "name": "octobot",
+  "desc": "",
+  "culture": "en-us",
+  "intents": [
+    {
+      "Name": "MyDevices",
+      "Children": []
+    },
+    {
+      "Name": "None",
+      "Children": []
+    },
+    {
+      "Name": "ListDeviceMessageOptions",
+      "Children": []
+    },
+    {
+      "Name": "SetCredentials",
+      "Children": []
+    },
+    {
+      "Name": "Help",
+      "Children": []
+    },
+    {
+      "Name": "MessageDevice",
+      "Children": []
+    }
+  ],
+  "entities": [
+    {
+      "Name": "Device",
+      "Children": [
+        "name",
+        "type"
+      ]
+    },
+    {
+      "Name": "MeshbluToken",
+      "Children": []
+    },
+    {
+      "Name": "Message",
+      "Children": [
+        "action",
+        "value"
+      ]
+    },
+    {
+      "Name": "MeshbluUUID",
+      "Children": []
+    }
+  ],
+  "bing_entities": [
+    "number",
+    "ordinal"
+  ],
+  "actions": [
+    {
+      "actionName": "SetCredentials",
+      "intentName": "SetCredentials",
+      "actionParameters": []
+    },
+    {
+      "actionName": "MessageDevice",
+      "intentName": "MessageDevice",
+      "actionParameters": []
+    },
+    {
+      "actionName": "ListDeviceMessageOptions",
+      "intentName": "ListDeviceMessageOptions",
+      "actionParameters": []
+    }
+  ],
+  "model_features": [
+    {
+      "name": "DeviceWords",
+      "mode": true,
+      "words": "phillips hue,belkin wemo,blink1",
+      "activated": true
+    },
+    {
+      "name": "MessageActionWords",
+      "mode": true,
+      "words": "turn on,turn off,set color to red,switch on,switch off,set color to blue,make the color magenta",
+      "activated": true
+    }
+  ],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "find new devices",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "do i have any new devices?",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "i want to control phillips hue",
+      "intent": "MessageDevice",
+      "entities": [
+        {
+          "entity": "Device::name",
+          "startPos": 4,
+          "endPos": 4
+        },
+        {
+          "entity": "Device::type",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "show me my devices",
+      "intent": "MyDevices",
+      "entities": []
+    },
+    {
+      "text": "i want to control my blink1",
+      "intent": "MessageDevice",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "find a new wemo",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "find a new hue",
+      "intent": "None",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "control my hue",
+      "intent": "MessageDevice",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "control my wemo",
+      "intent": "MessageDevice",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "add a new device",
+      "intent": "None",
+      "entities": []
+    },
+    {
+      "text": "get all my devices",
+      "intent": "MyDevices",
+      "entities": []
+    },
+    {
+      "text": "control my blink1",
+      "intent": "MessageDevice",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "what are the options for my hue?",
+      "intent": "ListDeviceMessageOptions",
+      "entities": [
+        {
+          "entity": "Device::name",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "how do i control my belkinwemo?",
+      "intent": "MessageDevice",
+      "entities": [
+        {
+          "entity": "Device::name",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "how do i message my blink1?",
+      "intent": "ListDeviceMessageOptions",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "what can i do with my wemo?",
+      "intent": "ListDeviceMessageOptions",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "how do i interact with my hue?",
+      "intent": "ListDeviceMessageOptions",
+      "entities": [
+        {
+          "entity": "Device::name",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "list the message options for my belkin wemo?",
+      "intent": "ListDeviceMessageOptions",
+      "entities": []
+    },
+    {
+      "text": "how do i control blinky too?",
+      "intent": "ListDeviceMessageOptions",
+      "entities": [
+        {
+          "entity": "Device::name",
+          "startPos": 3,
+          "endPos": 4
+        },
+        {
+          "entity": "Device::name",
+          "startPos": 5,
+          "endPos": 5
+        }
+      ]
+    },
+    {
+      "text": "turn the blink1 on",
+      "intent": "MessageDevice",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 2,
+          "endPos": 2
+        }
+      ]
+    },
+    {
+      "text": "show me all devices",
+      "intent": "MyDevices",
+      "entities": []
+    },
+    {
+      "text": "set blinky-poo color to magenta",
+      "intent": "MessageDevice",
+      "entities": [
+        {
+          "entity": "Device::name",
+          "startPos": 1,
+          "endPos": 3
+        },
+        {
+          "entity": "Message::action",
+          "startPos": 4,
+          "endPos": 4
+        },
+        {
+          "entity": "Message::value",
+          "startPos": 6,
+          "endPos": 6
+        }
+      ]
+    },
+    {
+      "text": "turn my blink1 off",
+      "intent": "MessageDevice",
+      "entities": [
+        {
+          "entity": "Device::type",
+          "startPos": 2,
+          "endPos": 2
+        },
+        {
+          "entity": "Message::action",
+          "startPos": 3,
+          "endPos": 3
+        }
+      ]
+    },
+    {
+      "text": "login with my credentials",
+      "intent": "SetCredentials",
+      "entities": []
+    },
+    {
+      "text": "login to octoblu",
+      "intent": "SetCredentials",
+      "entities": []
+    },
+    {
+      "text": "set my octoblu credentials",
+      "intent": "SetCredentials",
+      "entities": []
+    },
+    {
+      "text": "show me a list of commands",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help me",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can i do?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help me figure out what i can do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "show me the help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "please help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "what can you do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "authorize my octoblu account",
+      "intent": "SetCredentials",
+      "entities": []
+    },
+    {
+      "text": "auth",
+      "intent": "SetCredentials",
+      "entities": []
+    },
+    {
+      "text": "log me in to octoblu",
+      "intent": "SetCredentials",
+      "entities": []
+    },
+    {
+      "text": "authorize me",
+      "intent": "SetCredentials",
+      "entities": []
+    }
+  ]
+}
