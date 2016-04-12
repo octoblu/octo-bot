@@ -1,19 +1,17 @@
 builder = require 'botbuilder'
-index = require './dialog/index'
+index   = require './dialog/index'
+beginDialog = require './dialog/begin.dialog'
+
+
 textBot = new builder.TextBot()
 
 # textBot.use (session, next) =>
-#   if(!session.userData.firstRun)
-#     session.userData.firstRun = true
-#     session.beginDialog '/firstRun'
-#   else
-#     next()
-# textBot.add '/firstRun', [
-#   (session) => builder.Prompts.text session, "Hello...What's your name?",
-#   (session, results) =>
-#     session.userData.name = results.response
-#     session.replaceDialog '/'
-#   ]
+#   console.log "firstRun #{session.userData.firstRun}"
+#   next() unless session.userData.firstRun?
+#   session.userData.firstRun = true
+#   session.beginDialog '/BeginDialog'
 
 textBot.add '/', index
+textBot.add '/BeginDialog', beginDialog
+
 textBot.listenStdin()
